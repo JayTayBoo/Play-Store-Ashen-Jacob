@@ -11,24 +11,32 @@ app.get('/', (req, res) =>{
 
 app.get('/apps', (req, res) => {
   console.log('req.query ', req.query)
-  const {genres, sort} = req.query;
+  const {genre, sort} = req.query;
   let data = games;
+
+  if (genre) {
+    if (!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'].includes(genre)) {
+    return res.status(400).json({ message: "Genre must be Action, Puzzle, Strategy, Casual, Arcade, or Card" })
+    }
+  }
+
+  if (genre) {
+    data = data.filter(obj => obj.Genres.toLowerCase().includes(genre.toLowerCase()))
+  }
 
   if (sort) {
     if (!['Rating', 'App'].includes(sort)){
-      return res.status(400).send('Sort must be Rating or App.')
+      return res.status(400).json('Sort must be Rating or App.')
     }
   }
-console.log(sort);
 
   if (sort) {
-    data.sort((currentGame, nextGame) => {
-      return currentGame[sort] > nextGame[sort] ? 1 : currentGame[sort] < nextGame[sort] ? -1 : 0;
+    data.sort((currentApp, nextApp) => {
+      return currentApp[sort] > nextApp[sort] ? 1 : currentApp[sort] < nextApp[sort] ? -1 : 0;
     })
   }
-  res.status(200).send(data);
+
+  res.status(200).json(data);
 })
 
-app.listen(8000, () => {
-  console.log('Server started on port 8000')
-})
+module.exports = app;
