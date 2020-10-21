@@ -4,7 +4,9 @@
   "description": "",
   "main": "api.js",
   "scripts": {
-    "start": "node api.js"
+    "start": "node api.js",
+    "dev": "nodemon api.js",
+    "test": "mocha api.js"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +14,11 @@
   "dependencies": {
     "express": "^4.17.1",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0",
+    "nodemon": "^2.0.6",
+    "supertest": "^5.0.0"
   }
 }
